@@ -1,0 +1,178 @@
+JAVA Installation
+
+sudo apt update
+
+sudo apt install fontconfig openjdk-17-jre -y
+
+java -version
+
+find the java path by running:
+
+find / -name java
+
+now set the java environment variable:
+
+vi /etc/profile
+
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+
+export JAVA_HOME
+
+export PATH
+
+source /etc/environment ( exit from the current shell and re-login )
+
+------------------
+MAVEN Installation
+
+cd /opt/
+
+Go to maven download page and get the below URL
+
+wget https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz
+
+#tar -xvzf apache-maven-3.9.6-bin.tar.gz
+
+#mv apache-maven-3.9.6-bin.tar.gz maven
+
+cd maven/bin
+
+./mvn -version -- would give us maven version
+
+place the below entries into /etc/profile
+
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+M2_HOME=/opt/maven
+
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin:$M2_HOME/bin
+
+export JAVA_HOME
+
+export M2_HOME
+
+export PATH
+
+source /etc/environment
+
+----------------------------------
+
+JENKINS Installation
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins -y
+
+
+------------------------
+
+SONAR Installation
+
+JAVA is a pre-requisite
+
+useradd -m sonar -s /bin/bash
+
+Create SonarQube User:
+
+
+
+Download and Install SonarQube:
+
+cd /opt
+
+wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-10.6.0.92116.zip
+
+unzip sonarqube-10.6.0.92116.zip
+
+chown -R sonar:sonar sonarqube-10.6.0.92116
+
+su - sonar
+
+cd /opt/sonarqube-10.6.0.92116/bin/linux-x86-64
+
+./sonar.sh start
+
+Access SonarQube: Open http://<Public_IP>:9000 in your browser. Default login is admin/admin.
+
+———————
+
+Helm installation
+
+curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+helm version
+
+——————————
+
+Argocd installation:
+ Should be done on Kubernetes
+ARGOCD:
+Kubectl create ns argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl get all -n argocd
+
+kubectl edit svc argocd-server -n argocd
+Type: NodePort from ClusterIP
+
+kubectl get secrets -n argocd
+
+kubectl edit secret argocd-initial-admin-secret -n argocd
+
+
+echo -n 'ncxcb' | base64 --decode
+
+——————————
+
+Docker installation:
+
+1. Set up Docker’s apt repository.
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+2. Install the Docker package
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+
+————————
+
+AWS cli installation:
+
+snap version
+sudo snap install aws-cli --classic
+aws --version
+
+—————
+
+Install kubectl on Jenkins server:
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo cp kubectl /usr/local/bin/
+
+————————
+
+Install kubectl on Jenkins Server 
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
+chmod +x kubectl 
+cp kubectl /usr/local/bin/ 
+
