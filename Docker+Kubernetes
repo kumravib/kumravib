@@ -1754,7 +1754,7 @@ spec:
   value: kodecraft_db
 
 
-kubectl create secret generic aws-secret --namespace kube-system --from-literal "key_id=AKIA5WLTTM3SKROQPF3C" --from-literal "access_key=HGqtiTEFE2BR2ezaOtWNqSsV1jS3M4q1hCEqGKeD"
+kubectl create secret generic aws-secret --namespace kube-system --from-literal "key_id=xxxxxxxxx" --from-literal "access_key=xxxxxxxxxxx"
 
 
 Storage Class:
